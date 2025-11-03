@@ -55,7 +55,7 @@ resource "aws_route_table_association" "c" {
 
 resource "aws_db_subnet_group" "rds" {
   name       = "mysql-subnet-group"
-  subnet_ids = [aws_subnet.mysql-a.id]
+  subnet_ids = [aws_subnet.mysql-a.id, aws_subnet.mysql-c.id, aws_subnet.mysql-d.id]
 
   tags = {
     Name = "rds subnet group"
@@ -67,4 +67,18 @@ resource "aws_subnet" "mysql-a" {
 
   availability_zone = "us-east-1a"
   cidr_block        = "10.10.9.0/24"
+}
+
+resource "aws_subnet" "mysql-c" {
+  vpc_id = aws_vpc.vpc.id
+
+  availability_zone = "us-east-1c"
+  cidr_block        = "10.10.11.0/24"
+}
+
+resource "aws_subnet" "mysql-d" {
+  vpc_id = aws_vpc.vpc.id
+
+  availability_zone = "us-east-1d"
+  cidr_block        = "10.10.12.0/24"
 }

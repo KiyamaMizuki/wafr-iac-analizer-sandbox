@@ -6,12 +6,13 @@ resource "aws_instance" "web" {
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.web.id]
   subnet_id                   = aws_subnet.public_1a.id
-  # user_data                   = <<-EOF
-  #       snap install amazon-ssm-agent --classic
-  #       snap start amazon-ssm-agent
-
-  #   EOF
+  key_name = aws_key_pair.my_key.key_name
   tags = {
     Name = "web"
   }
+}
+
+resource "aws_key_pair" "my_key" {
+  key_name   = "terraform-key"
+  public_key = file("./tf-key.pub")
 }
